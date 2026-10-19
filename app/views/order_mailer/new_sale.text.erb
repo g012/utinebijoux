@@ -1,0 +1,8 @@
+Nouvelle vente : <%= @order.number %>
+<%= @order.customer_name %> — <%= @order.customer_email %>
+<% @order.order_items.each do |item| %>
+<%= item.quantity %> × <%= item.product_name %>
+<% end %>
+Total : <%= money(@order.total_cents) %>
+Adresse de livraison : <%= @order.shipping_details.to_json %>
+Voir la commande : <%= Shop.url %>/admin/orders/<%= @order.public_token %>

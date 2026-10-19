@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title><%= page_title %> · <%= Shop.name %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="<%= page_description %>">
+    <meta name="theme-color" content="#f8f6f1">
+    <meta property="og:title" content="<%= page_title %> · <%= Shop.name %>">
+    <meta property="og:description" content="<%= page_description %>">
+    <meta property="og:type" content="<%= content_for?(:product_meta) ? 'product' : 'website' %>">
+    <meta property="og:url" content="<%= Shop.url + request.path %>">
+    <meta property="og:image" content="<%= content_for(:og_image).presence || Shop.url + '/images/hero.jpg' %>">
+    <link rel="canonical" href="<%= Shop.url + request.path %>">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <%= yield :head %>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Aller au contenu</a>
+    <div class="announcement">De petites perles, de grandes histoires. <span>Bijoux faits main en petites quantités.</span> <%= icon(:star, size: 13) %></div>
+    <header class="site-header">
+      <div class="header-inner">
+        <%= link_to root_path, class: "brand", "aria-label": "#{Shop.name} — accueil" do %><%= icon(:star, size: 28) %><span><%= Shop.name %><small>BIJOUX FAITS MAIN</small></span><% end %>
+        <nav class="desktop-nav" aria-label="Navigation principale">
+          <%= link_to "La boutique", products_path, class: (controller_name == "products" ? "current" : nil) %>
+          <%= link_to "L’histoire de l’atelier", about_path %>
+          <%= link_to "Un petit mot", contact_path %>
+        </nav>
+        <%= link_to cart_path, class: "cart-link", "aria-label": "Panier, #{current_cart.count} article(s)" do %><%= icon(:bag) %><span>Panier</span><b><%= current_cart.count %></b><% end %>
+      </div>
+      <nav class="mobile-nav" aria-label="Navigation mobile"><%= link_to "La boutique", products_path %><%= link_to "L’atelier", about_path %><%= link_to "Contact", contact_path %></nav>
+    </header>
+    <% flash.each do |type, message| %><div class="flash <%= type %>" role="status"><%= message %></div><% end %>
+    <main id="main"><%= yield %></main>
+    <section class="reassurance wrap" aria-label="Nos attentions">
+      <div><%= icon(:heart) %><span>Fait main, avec amour</span></div><div><%= icon(:star) %><span>Pièces uniques & petites séries</span></div><div><%= icon(:truck) %><span>Livraison soignée en France</span></div>
+    </section>
+    <footer class="site-footer"><div class="wrap footer-grid">
+      <div class="footer-intro"><%= link_to Shop.name, root_path, class: "footer-brand" %><p>Des bijoux à aimer.<br>Des petits bonheurs à porter.</p><span class="tiny">IMAGINÉS AVEC LE CŒUR, CRÉÉS À LA MAIN.</span></div>
+      <div><h2>Promenons-nous</h2><%= link_to "Toutes les créations", products_path %><%= link_to "L’histoire de l’atelier", about_path %><%= link_to "Nous contacter", contact_path %></div>
+      <div><h2>Les petites infos</h2><%= link_to "Livraison & retours", legal_path("conditions-de-vente") %><%= link_to "Mentions légales", legal_path("mentions-legales") %><%= link_to "Confidentialité", legal_path("confidentialite") %></div>
+      <div class="footer-note"><%= icon(:star, size: 32) %><p>Chaque pièce a sa petite histoire.<br>La prochaine sera peut-être la vôtre.</p><%= mail_to Shop.email, "Écrivez-nous ↗" %></div>
+    </div><div class="wrap footer-bottom"><span>© <%= Date.current.year %> <%= Shop.name %></span><span>Paiement sécurisé par Stripe <span aria-hidden="true">♡</span></span></div></footer>
+  </body>
+</html>

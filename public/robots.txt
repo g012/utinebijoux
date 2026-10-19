@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin
+Disallow: /panier
+Disallow: /commandes
+Disallow: /session
+Disallow: /passwords
+# Sitemap: https://YOUR_DOMAIN/sitemap.xml

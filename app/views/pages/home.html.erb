@@ -1,0 +1,22 @@
+<section class="hero wrap">
+  <div class="hero-copy"><div class="eyebrow"><span class="small-line"></span> UN PEU DE DOUCEUR, BEAUCOUP DE VOUS</div>
+    <h1>Les petits détails<br>font les <em>belles<br>histoires.</em><span class="heading-star"><%= icon(:star, size: 40) %></span></h1>
+    <p>Des perles, des couleurs, un peu de poésie.<br>Des bijoux faits main pour illuminer vos journées,<br class="desktop-only"> en pièces uniques ou toutes petites séries.</p>
+    <%= link_to products_path, class: "button" do %>Trouver mon petit bonheur <%= icon(:arrow, size: 19) %><% end %>
+    <div class="hero-footnote"><span class="handmade-mark">♡</span><span>Imaginé avec le cœur.<br>Assemblé à la main.</span></div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-photo-main"><img src="/images/hero.jpg" alt="Bijoux dorés et perles délicates présentés dans une lumière douce" fetchpriority="high" width="900" height="1100"></div>
+    <div class="round-stamp">PETITES SÉRIES<br><%= icon(:star, size: 26) %><br>GRANDS COUPS DE CŒUR</div>
+    <div class="hero-photo-small"><img src="/images/bracelet.jpg" alt="Un bracelet délicat, détail d’une création" width="500" height="600"><span>la beauté des petites choses</span></div>
+    <span class="visual-caption">DES BIJOUX QUI NE RESSEMBLENT QU’À VOUS.</span>
+  </div>
+</section>
+<div class="ribbon"><span>Des perles choisies avec soin</span><%= icon(:star, size: 17) %><span>Fait main, tout simplement</span><%= icon(:star, size: 17) %><span>Chaque pièce a son histoire</span><%= icon(:star, size: 17) %><span>À porter, à aimer, à offrir</span></div>
+<section class="section wrap" id="nouveautes"><div class="section-heading"><div><div class="eyebrow">FRAÎCHEMENT SORTIS DE L’ATELIER</div><h2>Les dernières <em>petites merveilles</em></h2></div><%= link_to products_path, class: "text-link" do %>Tout découvrir <%= icon(:arrow, size: 18) %><% end %></div>
+  <div class="product-grid"><%= render partial: "products/card", collection: @products, as: :product %></div>
+  <% if @products.empty? %><p class="empty-message">Les premières créations arrivent bientôt. Revenez nous rendre visite !</p><% end %>
+</section>
+<section class="category-section"><div class="wrap category-layout"><div><div class="eyebrow">À CHACUNE SON COUP DE CŒUR</div><h2>Un bijou pour<br><em>chaque envie.</em></h2><p>Plutôt petit détail discret<br>ou touche de couleur ?</p></div><div class="category-links"><% [["Bracelets", "Autour du poignet", "01"], ["Colliers", "Tout près du cœur", "02"], ["Boucles", "Un air de légèreté", "03"]].each do |category, subtitle, index| %><%= link_to products_path(category: category), class: "category-link" do %><span class="category-number"><%= index %></span><span><strong><%= category == "Boucles" ? "Boucles d’oreilles" : category %></strong><small><%= subtitle %></small></span><%= icon(:arrow) %><% end %><% end %></div></div></section>
+<section class="section wrap story-section"><div class="story-photo"><img src="/images/pearls.jpg" alt="Détails de bijoux et matières aux teintes naturelles" loading="lazy" width="900" height="800"><span class="photo-note">Le charme de l’imparfait,<br>la magie du fait main.</span></div><div class="story-copy"><div class="eyebrow">DERRIÈRE CHAQUE PERLE</div><h2>Deux mains.<br>Mille idées.<br><em>Un peu de magie.</em></h2><p>Tout commence par une couleur, une perle, une envie. À l’atelier, les bijoux prennent forme un à un, au fil de l’inspiration.</p><p>Pas de grandes collections à l’infini : juste des créations en petites quantités, avec ce petit supplément d’âme qui les rend singulières.</p><%= link_to about_path, class: "text-link" do %>Pousser la porte de l’atelier <%= icon(:arrow, size: 18) %><% end %></div></section>
+<section class="closing-note"><%= icon(:star, size: 31) %><h2>Une petite pièce.<br><em>Une place à part.</em></h2><p>Parfois, un seul exemplaire. Toujours, beaucoup d’attention.</p><%= link_to "Découvrir les créations", products_path, class: "button button-outline" %></section>

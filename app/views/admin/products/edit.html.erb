@@ -1,0 +1,1 @@
+<div class="admin-title"><h1>Modifier la création</h1><%= link_to "← Toutes les créations", admin_products_path %></div><%= render "form", product: @product %><%= button_to "Archiver cette création", admin_product_path(@product), method: :delete, class: "remove-link", data: { turbo_confirm: "Archiver cette création ? Elle sera retirée de la boutique." } %>

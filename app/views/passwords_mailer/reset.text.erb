@@ -1,0 +1,5 @@
+Pour réinitialiser votre mot de passe, ouvrez ce lien :
+<%= edit_password_url(@user.password_reset_token) %>
+
+Le lien expire dans <%= (@user.password_reset_token_expires_in / 60).to_i %> minutes.
+Si vous n’êtes pas à l’origine de cette demande, ignorez cet e-mail.
