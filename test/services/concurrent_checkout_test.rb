@@ -17,6 +17,7 @@ class ConcurrentCheckoutTest < ActiveSupport::TestCase
     orders.delete_all
     CartItem.where(cart_id: @carts.map(&:id)).delete_all
     Cart.where(id: @carts.map(&:id)).delete_all
+    ProductSize.where(product_id: @product.id).delete_all
     Product.where(id: @product.id).delete_all
   end
 
@@ -87,4 +88,48 @@ class ConcurrentCheckoutTest < ActiveSupport::TestCase
     assert_equal 0, @product.reload.stock_quantity
     assert_equal 1, StripeEvent.where(stripe_id: event.id).count
   end
+  test "two checkouts cannot reserve the same size even when another size remains" do
+    small = @product.product_sizes.create!(size_cm: 15)
+    large = @product.product_sizes.create!(size_cm: 18)
+    @carts.each do |cart|
+      cart.cart_items.delete_all
+      cart.cart_items.create!(product: @product, product_size: small)
+    end
+    results = run_simultaneous_size_checkouts
+    assert_equal [ "pending_payment", "unavailable" ], results.sort
+    assert_equal 0, small.reload.stock_quantity
+    assert_equal 1, large.reload.stock_quantity
+  end
+
+  test "two distinct sizes can each be reserved successfully" do
+    sizes = [ 15, 18 ].map { |length| @product.product_sizes.create!(size_cm: length) }
+    @carts.zip(sizes).each do |cart, size|
+      cart.cart_items.delete_all
+      cart.cart_items.create!(product: @product, product_size: size)
+    end
+    assert_equal [ "pending_payment", "pending_payment" ], run_simultaneous_size_checkouts.sort
+    assert_equal [ 0, 0 ], sizes.map { |size| size.reload.stock_quantity }
+  end
+
+  private
+    def run_simultaneous_size_checkouts
+      ready, start, outcomes = Queue.new, Queue.new, Queue.new
+      threads = @carts.map do |cart|
+        Thread.new do
+          ActiveRecord::Base.connection_pool.with_connection do
+            ready << true
+            start.pop
+            begin
+              outcomes << Checkout.reserve(Cart.find(cart.id)).status
+            rescue Checkout::Unavailable
+              outcomes << "unavailable"
+            end
+          end
+        end
+      end
+      2.times { ready.pop }
+      2.times { start << true }
+      threads.each(&:value)
+      2.times.map { outcomes.pop }
+    end
 end

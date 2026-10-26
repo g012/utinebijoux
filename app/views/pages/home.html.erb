@@ -6,9 +6,9 @@
     <div class="hero-footnote"><span class="handmade-mark">♡</span><span>Imaginé avec le cœur.<br>Assemblé à la main.</span></div>
   </div>
   <div class="hero-visual">
-    <div class="hero-photo-main"><img src="/images/hero.jpg" alt="Bijoux dorés et perles délicates présentés dans une lumière douce" fetchpriority="high" width="900" height="1100"></div>
+    <div class="hero-photo-main"><img src="/images/atelier-cerises.jpeg" alt="Bracelet Cerises de la collection Les fruits, fait main par les bijoux de titine" fetchpriority="high" width="2111" height="2111"></div>
     <div class="round-stamp">PETITES SÉRIES<br><%= icon(:star, size: 26) %><br>GRANDS COUPS DE CŒUR</div>
-    <div class="hero-photo-small"><img src="/images/bracelet.jpg" alt="Un bracelet délicat, détail d’une création" width="500" height="600"><span>la beauté des petites choses</span></div>
+    <div class="hero-photo-small"><img src="/images/atelier-fil.jpeg" alt="Bracelet en fil multicolore fait main par les bijoux de titine" width="500" height="600"><span>la beauté des petites choses</span></div>
     <span class="visual-caption">DES BIJOUX QUI NE RESSEMBLENT QU’À VOUS.</span>
   </div>
 </section>
@@ -17,6 +17,23 @@
   <div class="product-grid"><%= render partial: "products/card", collection: @products, as: :product %></div>
   <% if @products.empty? %><p class="empty-message">Les premières créations arrivent bientôt. Revenez nous rendre visite !</p><% end %>
 </section>
-<section class="category-section"><div class="wrap category-layout"><div><div class="eyebrow">À CHACUNE SON COUP DE CŒUR</div><h2>Un bijou pour<br><em>chaque envie.</em></h2><p>Plutôt petit détail discret<br>ou touche de couleur ?</p></div><div class="category-links"><% [["Bracelets", "Autour du poignet", "01"], ["Colliers", "Tout près du cœur", "02"], ["Boucles", "Un air de légèreté", "03"]].each do |category, subtitle, index| %><%= link_to products_path(category: category), class: "category-link" do %><span class="category-number"><%= index %></span><span><strong><%= category == "Boucles" ? "Boucles d’oreilles" : category %></strong><small><%= subtitle %></small></span><%= icon(:arrow) %><% end %><% end %></div></div></section>
-<section class="section wrap story-section"><div class="story-photo"><img src="/images/pearls.jpg" alt="Détails de bijoux et matières aux teintes naturelles" loading="lazy" width="900" height="800"><span class="photo-note">Le charme de l’imparfait,<br>la magie du fait main.</span></div><div class="story-copy"><div class="eyebrow">DERRIÈRE CHAQUE PERLE</div><h2>Deux mains.<br>Mille idées.<br><em>Un peu de magie.</em></h2><p>Tout commence par une couleur, une perle, une envie. À l’atelier, les bijoux prennent forme un à un, au fil de l’inspiration.</p><p>Pas de grandes collections à l’infini : juste des créations en petites quantités, avec ce petit supplément d’âme qui les rend singulières.</p><%= link_to about_path, class: "text-link" do %>Pousser la porte de l’atelier <%= icon(:arrow, size: 18) %><% end %></div></section>
+<section class="category-section">
+  <div class="wrap category-layout">
+    <div><div class="eyebrow">À CHACUNE SON COUP DE CŒUR</div><h2>Une création pour<br><em>chaque envie.</em></h2><p>Des perles, du fil et de la couleur,<br>à porter ou à emporter partout.</p></div>
+    <div class="category-links">
+      <% [["Bracelets en perles", "Une touche de couleur au poignet"], ["Bracelets en fil", "Des fils entrelacés à la main"], ["Bagues", "Un petit détail au bout des doigts"], ["Porte-clés", "À emporter partout avec vous"]].each_with_index do |(category, subtitle), index| %>
+        <%= link_to products_path(category: category), class: "category-link" do %>
+          <span class="category-number"><%= format("%02d", index + 1) %></span><span><strong><%= category %></strong><small><%= subtitle %></small></span><%= icon(:arrow) %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</section>
+<% if @fruit_collection_available %>
+<section class="collection-section wrap">
+  <div><div class="eyebrow">UNE COLLECTION À CROQUER</div><h2>Les <em>fruits.</em></h2><p>Un même univers, plusieurs créations.</p></div>
+  <%= link_to products_path(collection: "Les fruits"), class: "text-link" do %>Découvrir la collection <%= icon(:arrow, size: 18) %><% end %>
+</section>
+<% end %>
+<section class="section wrap story-section"><div class="story-photo"><img src="/images/atelier-bague.jpeg" alt="Bague fleurie rose créée par les bijoux de titine" loading="lazy" width="900" height="800"><span class="photo-note">Le charme de l’imparfait,<br>la magie du fait main.</span></div><div class="story-copy"><div class="eyebrow">DERRIÈRE CHAQUE PERLE</div><h2>Deux mains.<br>Mille idées.<br><em>Un peu de magie.</em></h2><p>Tout commence par une couleur, une perle, une envie. À l’atelier, les bijoux prennent forme un à un, au fil de l’inspiration.</p><p>Pas de grandes collections à l’infini : juste des créations en petites quantités, avec ce petit supplément d’âme qui les rend singulières.</p><%= link_to about_path, class: "text-link" do %>Pousser la porte de l’atelier <%= icon(:arrow, size: 18) %><% end %></div></section>
 <section class="closing-note"><%= icon(:star, size: 31) %><h2>Une petite pièce.<br><em>Une place à part.</em></h2><p>Parfois, un seul exemplaire. Toujours, beaucoup d’attention.</p><%= link_to "Découvrir les créations", products_path, class: "button button-outline" %></section>

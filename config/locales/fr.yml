@@ -31,5 +31,9 @@ fr:
         stock_quantity: "Le stock"
         photos: "Les photos"
         category: "La catégorie"
+        product_sizes: "Les tailles"
+      product_size:
+        size_cm: "La taille"
+        stock_quantity: "Le stock"
       user:
         password: "Le mot de passe"

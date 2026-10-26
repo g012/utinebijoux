@@ -14,9 +14,15 @@ class Checkout
       items = cart.cart_items.order(:product_id).to_a
       raise Unavailable, "Votre panier est vide." if items.empty?
       products = Product.where(id: items.map(&:product_id)).order(:id).lock.index_by(&:id)
+      sizes = ProductSize.where(id: items.map(&:product_size_id).compact).order(:id).lock.index_by(&:id)
       items.each do |item|
         product = products.fetch(item.product_id)
-        unless product.purchasable? && item.quantity <= product.stock_quantity && (!product.unique_piece? || item.quantity == 1)
+        size = sizes[item.product_size_id]
+        if product.sized? != size.present? || (size && size.product_id != product.id)
+          raise Unavailable, "Veuillez choisir une taille disponible pour #{product.name}."
+        end
+        inventory = size || product
+        unless product.purchasable? && item.quantity <= inventory.stock_quantity && (size || !product.unique_piece? || item.quantity == 1)
           raise Unavailable, "Désolé, cette pièce vient d’être vendue ou n’est plus disponible : #{product.name}."
         end
       end
@@ -25,8 +31,11 @@ class Checkout
         total_cents: subtotal + Shop.shipping_cents, expires_at: 35.minutes.from_now.change(usec: 0))
       items.each do |item|
         product = products.fetch(item.product_id)
-        order.order_items.build(product: product, product_name: product.name, unit_price_cents: product.price_cents, quantity: item.quantity)
-        product.update!(stock_quantity: product.stock_quantity - item.quantity)
+        size = sizes[item.product_size_id]
+        order.order_items.build(product: product, product_size: size, size_cm: size&.size_cm,
+          product_name: product.name, unit_price_cents: product.price_cents, quantity: item.quantity)
+        inventory = size || product
+        inventory.update!(stock_quantity: inventory.stock_quantity - item.quantity)
       end
       # Persist the exact request, including URLs, for idempotent recovery after a crash.
       order.valid? # assigns the human-readable reference
@@ -78,7 +87,7 @@ class Checkout
       expires_at: order.expires_at.to_i,
       success_url: "#{Shop.url}/commandes/#{order.public_token}", cancel_url: "#{Shop.url}/panier",
       line_items: order.order_items.map { |item| { quantity: item.quantity, price_data: {
-        currency: order.currency, unit_amount: item.unit_price_cents, product_data: { name: item.product_name }
+        currency: order.currency, unit_amount: item.unit_price_cents, product_data: { name: item.display_name }
       } } },
       shipping_options: [ { shipping_rate_data: { type: "fixed_amount", display_name: "Livraison en France",
         fixed_amount: { amount: order.shipping_cents, currency: order.currency } } } ]

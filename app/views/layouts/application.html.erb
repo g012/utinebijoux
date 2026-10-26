@@ -9,7 +9,7 @@
     <meta property="og:description" content="<%= page_description %>">
     <meta property="og:type" content="<%= content_for?(:product_meta) ? 'product' : 'website' %>">
     <meta property="og:url" content="<%= Shop.url + request.path %>">
-    <meta property="og:image" content="<%= content_for(:og_image).presence || Shop.url + '/images/hero.jpg' %>">
+    <meta property="og:image" content="<%= content_for(:og_image).presence || Shop.url + '/images/atelier-hero.jpeg' %>">
     <link rel="canonical" href="<%= Shop.url + request.path %>">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>

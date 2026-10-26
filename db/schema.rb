@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_19_141717) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_26_170000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "vector"
@@ -49,9 +49,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_19_141717) do
     t.integer "quantity", default: 1, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["cart_id", "product_id"], name: "index_cart_items_on_cart_id_and_product_id", unique: true
+    t.bigint "product_size_id"
+    t.index ["cart_id", "product_id"], name: "unique_unsized_cart_item", unique: true, where: "(product_size_id IS NULL)"
+    t.index ["cart_id", "product_size_id"], name: "unique_sized_cart_item", unique: true, where: "(product_size_id IS NOT NULL)"
     t.index ["cart_id"], name: "index_cart_items_on_cart_id"
     t.index ["product_id"], name: "index_cart_items_on_product_id"
+    t.index ["product_size_id"], name: "index_cart_items_on_product_size_id"
     t.check_constraint "quantity > 0 AND quantity <= 99", name: "cart_quantity"
   end
 
@@ -70,8 +73,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_19_141717) do
     t.integer "quantity", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "product_size_id"
+    t.integer "size_cm"
     t.index ["order_id"], name: "index_order_items_on_order_id"
     t.index ["product_id"], name: "index_order_items_on_product_id"
+    t.index ["product_size_id"], name: "index_order_items_on_product_size_id"
+    t.check_constraint "product_size_id IS NULL AND size_cm IS NULL OR product_size_id IS NOT NULL AND size_cm IS NOT NULL AND size_cm > 0", name: "consistent_order_size"
     t.check_constraint "quantity > 0 AND unit_price_cents > 0", name: "order_item_values"
   end
 
@@ -110,22 +117,38 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_19_141717) do
     t.check_constraint "subtotal_cents > 0 AND shipping_cents >= 0 AND total_cents = (subtotal_cents + shipping_cents)", name: "order_totals"
   end
 
+  create_table "product_sizes", force: :cascade do |t|
+    t.bigint "product_id", null: false
+    t.integer "size_cm", null: false
+    t.integer "stock_quantity", default: 1, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id", "size_cm"], name: "index_product_sizes_on_product_id_and_size_cm", unique: true
+    t.index ["product_id"], name: "index_product_sizes_on_product_id"
+    t.check_constraint "size_cm > 0 AND stock_quantity >= 0", name: "valid_size_inventory"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "name", null: false
     t.string "slug", null: false
     t.text "description", default: "", null: false
-    t.integer "price_cents", null: false
+    t.integer "price_cents", default: 600
     t.string "currency", default: "eur", null: false
     t.integer "stock_quantity", default: 1, null: false
     t.boolean "unique_piece", default: true, null: false
     t.boolean "active", default: true, null: false
     t.boolean "archived", default: false, null: false
     t.boolean "hide_when_sold", default: false, null: false
-    t.string "category", default: "Bracelets", null: false
+    t.string "category", default: "Bracelets en perles", null: false
     t.jsonb "photo_order", default: [], null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "collection"
+    t.string "catalog_reference"
+    t.index ["catalog_reference"], name: "index_products_on_catalog_reference", unique: true
+    t.index ["collection"], name: "index_products_on_collection"
     t.index ["slug"], name: "index_products_on_slug", unique: true
+    t.check_constraint "NOT active OR price_cents IS NOT NULL", name: "published_product_price"
     t.check_constraint "NOT unique_piece OR stock_quantity <= 1", name: "unique_stock"
     t.check_constraint "currency::text = 'eur'::text", name: "product_eur"
     t.check_constraint "price_cents > 0", name: "positive_price"
@@ -310,10 +333,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_19_141717) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cart_items", "carts"
+  add_foreign_key "cart_items", "product_sizes"
   add_foreign_key "cart_items", "products"
   add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "product_sizes"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "carts"
+  add_foreign_key "product_sizes", "products"
   add_foreign_key "sessions", "users"
   add_foreign_key "solid_queue_batch_executions", "solid_queue_batches", column: "batch_id", on_delete: :cascade
   add_foreign_key "solid_queue_batch_executions", "solid_queue_jobs", column: "job_id", on_delete: :cascade

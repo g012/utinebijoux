@@ -1,7 +1,7 @@
 class Admin::ProductsController < Admin::BaseController
   before_action :set_product, only: [ :edit, :update, :destroy ]
   def index
-    @products = paginate(Product.with_attached_photos.order(created_at: :desc))
+    @products = paginate(Product.with_attached_photos.includes(:product_sizes).order(created_at: :desc))
   end
   def new
     @product = Product.new
@@ -9,7 +9,7 @@ class Admin::ProductsController < Admin::BaseController
   def create
     @product = Product.new(product_params)
     if @product.save
-      redirect_to admin_products_path, notice: "La création est publiée."
+      redirect_to admin_products_path, notice: @product.active? ? "La création est publiée." : "Le brouillon a été enregistré."
     else
       render :new, status: :unprocessable_entity
     end
@@ -44,9 +44,16 @@ class Admin::ProductsController < Admin::BaseController
       @product = Product.find_by!(slug: params[:id])
     end
     def product_params
-      params.require(:product).permit(:name, :description, :price_cents, :category, :stock_quantity, :unique_piece, :active, :archived, :hide_when_sold, photos: [])
+      params.require(:product).permit(:name, :description, :price_cents, :category, :collection, :stock_quantity, :unique_piece, :active, :archived, :hide_when_sold,
+        photos: [], product_sizes_attributes: [ :id, :size_cm, :stock_quantity ])
     end
     def inventory_change?(attributes)
-      %w[stock_quantity unique_piece].any? { |key| attributes.key?(key) && attributes[key].to_s != @product.public_send(key).to_s && !(key == "unique_piece" && ActiveModel::Type::Boolean.new.cast(attributes[key]) == @product.unique_piece) }
+      generic_change = %w[stock_quantity unique_piece].any? { |key| attributes.key?(key) && attributes[key].to_s != @product.public_send(key).to_s && !(key == "unique_piece" && ActiveModel::Type::Boolean.new.cast(attributes[key]) == @product.unique_piece) }
+      size_change = attributes.fetch(:product_sizes_attributes, {}).values.any? do |size_attributes|
+        next false if size_attributes[:id].blank? && size_attributes[:size_cm].blank?
+        size = @product.product_sizes.find_by(id: size_attributes[:id])
+        !size || %w[size_cm stock_quantity].any? { |key| size_attributes.key?(key) && size_attributes[key].to_i != size.public_send(key) }
+      end
+      generic_change || size_change
     end
 end

@@ -1,0 +1,16 @@
+<div class="size-inventory">
+  <h3>Tailles du bracelet</h3>
+  <p>Chaque taille possède son propre stock. Pour retirer une taille de la vente, mettez son stock à zéro.</p>
+  <%= form.fields_for :product_sizes do |size_form| %>
+    <div class="size-inventory-row">
+      <div><%= size_form.label :size_cm, "Taille (cm)" %><%= size_form.number_field :size_cm, min: 1, readonly: size_form.object.persisted? %></div>
+      <div><%= size_form.label :stock_quantity, "Stock disponible" %><%= size_form.number_field :stock_quantity, min: 0 %></div>
+    </div>
+  <% end %>
+  <%= form.fields_for :product_sizes, ProductSize.new do |size_form| %>
+    <div class="size-inventory-row">
+      <div><%= size_form.label :size_cm, "Ajouter une taille (cm)" %><%= size_form.number_field :size_cm, min: 1, placeholder: "Ex. 18" %></div>
+      <div><%= size_form.label :stock_quantity, "Stock initial" %><%= size_form.number_field :stock_quantity, min: 0 %></div>
+    </div>
+  <% end %>
+</div>

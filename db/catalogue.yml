@@ -1,0 +1,506 @@
+# Prix : bagues 3 €, autres créations 6 €.
+# Taille unique hors collection « Les fruits » ; un exemplaire par longueur pour les fruits.
+# Sources : tmp/nocollection et tmp/lesfruits. Les paires de vues sont explicites.
+products:
+- reference: titine-9293
+  name: Bracelet en fil multicolore
+  category: Bracelets en fil
+  collection: null
+  price_cents: 600
+  description: Bracelet en fil multicolore. Création faite main par les bijoux de
+    titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9293.jpeg
+  - IMG_9294.jpeg
+  active: true
+- reference: titine-9299
+  name: Bracelet en fil bleu
+  category: Bracelets en fil
+  collection: null
+  price_cents: 600
+  description: Bracelet en fil bleu. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9299.jpeg
+  - IMG_9300.jpeg
+  active: true
+- reference: titine-9301
+  name: Bracelet en fil rouge et jaune
+  category: Bracelets en fil
+  collection: null
+  price_cents: 600
+  description: Bracelet en fil rouge et jaune. Création faite main par les bijoux
+    de titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9301.jpeg
+  - IMG_9302.jpeg
+  active: true
+- reference: titine-9303
+  name: Bracelet en fil vert et blanc
+  category: Bracelets en fil
+  collection: null
+  price_cents: 600
+  description: Bracelet en fil vert et blanc. Création faite main par les bijoux de
+    titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9303.jpeg
+  - IMG_9304.jpeg
+  active: true
+- reference: titine-9305
+  name: Bracelet en fil fleuri rose et vert
+  category: Bracelets en fil
+  collection: null
+  price_cents: 600
+  description: Bracelet en fil fleuri rose et vert. Création faite main par les bijoux
+    de titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9305.jpeg
+  - IMG_9306.jpeg
+  active: true
+- reference: titine-9307
+  name: Bracelet en perles bleu clair
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet en perles bleu clair. Création faite main par les bijoux de
+    titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9307.jpeg
+  - IMG_9308.jpeg
+  active: true
+- reference: titine-9309
+  name: Bracelet en perles roses
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet en perles roses. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9309.jpeg
+  - IMG_9310.jpeg
+  active: true
+- reference: titine-9311
+  name: Bracelet fleuri jaune et vert
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet fleuri jaune et vert. Création faite main par les bijoux de
+    titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9311.jpeg
+  - IMG_9312.jpeg
+  active: true
+- reference: titine-9313
+  name: Bracelet en perles rouges et dorées
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet en perles rouges et dorées. Création faite main par les bijoux
+    de titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9313.jpeg
+  - IMG_9314.jpeg
+  active: true
+- reference: titine-9315
+  name: Bracelet en perles turquoise
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet en perles turquoise. Création faite main par les bijoux de
+    titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9315.jpeg
+  - IMG_9316.jpeg
+  active: true
+- reference: titine-9317
+  name: Bracelet en perles blanches et roses
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet en perles blanches et roses. Création faite main par les bijoux
+    de titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9317.jpeg
+  - IMG_9318.jpeg
+  active: true
+- reference: titine-9319
+  name: Bracelet en perles blanches et bleu turquoise
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet en perles blanches et bleu turquoise. Création faite main
+    par les bijoux de titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9319.jpeg
+  - IMG_9320.jpeg
+  active: true
+- reference: titine-9321
+  name: Bracelet en perles plates blanches
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet en perles plates blanches. Création faite main par les bijoux
+    de titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9321.jpeg
+  - IMG_9323.jpeg
+  active: true
+- reference: titine-9324
+  name: Bracelet fin rose et doré
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet fin rose et doré. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9324.jpeg
+  - IMG_9325.jpeg
+  active: true
+- reference: titine-9326
+  name: Bracelet fin bleu et doré
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet fin bleu et doré. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9326.jpeg
+  - IMG_9327.jpeg
+  active: true
+- reference: titine-9328
+  name: Bracelet fin violet et doré
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet fin violet et doré. Création faite main par les bijoux de
+    titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9328.jpeg
+  - IMG_9329.jpeg
+  active: true
+- reference: titine-9330
+  name: Bracelet fin prune et doré
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet fin prune et doré. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9330.jpeg
+  - IMG_9331.jpeg
+  active: true
+- reference: titine-9332
+  name: Bracelet fin vert et doré
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet fin vert et doré. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9332.jpeg
+  - IMG_9333.jpeg
+  active: true
+- reference: titine-9334
+  name: Bracelet fin jaune et rose
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet fin jaune et rose. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9334.jpeg
+  - IMG_9335.jpeg
+  active: true
+- reference: titine-9336
+  name: Bracelet en perles bleues et blanches
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet en perles bleues et blanches. Création faite main par les
+    bijoux de titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9336.jpeg
+  - IMG_9337.jpeg
+  active: true
+- reference: titine-9338
+  name: Bracelet fin rouge
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet fin rouge. Création faite main par les bijoux de titine. Les
+    photos présentent la pièce proposée.
+  photos:
+  - IMG_9338.jpeg
+  - IMG_9339.jpeg
+  active: true
+- reference: titine-9340
+  name: Bracelet à perles dorées
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet à perles dorées. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9340.jpeg
+  - IMG_9341.jpeg
+  active: true
+- reference: titine-9342
+  name: Bracelet en perles multicolores
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  description: Bracelet en perles multicolores. Création faite main par les bijoux
+    de titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9342.jpeg
+  - IMG_9343.jpeg
+  active: true
+- reference: titine-9344
+  name: Porte-clés fleur verte
+  category: Porte-clés
+  collection: null
+  price_cents: 600
+  description: Porte-clés fleur verte. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9344.jpeg
+  active: true
+- reference: titine-9345
+  name: Porte-clés fleur rose
+  category: Porte-clés
+  collection: null
+  price_cents: 600
+  description: Porte-clés fleur rose. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9345.jpeg
+  active: true
+- reference: titine-9347
+  name: Porte-clés en perles bleues et grises
+  category: Porte-clés
+  collection: null
+  price_cents: 600
+  description: Porte-clés en perles bleues et grises. Création faite main par les
+    bijoux de titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9347.jpeg
+  active: true
+- reference: titine-9348
+  name: Porte-clés ourson rose
+  category: Porte-clés
+  collection: null
+  price_cents: 600
+  description: Porte-clés ourson rose. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9348.jpeg
+  active: true
+- reference: titine-9349
+  name: Porte-clés en perles brunes et blanches
+  category: Porte-clés
+  collection: null
+  price_cents: 600
+  description: Porte-clés en perles brunes et blanches. Création faite main par les
+    bijoux de titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9349.jpeg
+  active: true
+- reference: titine-9350
+  name: Porte-clés torsadé rose
+  category: Porte-clés
+  collection: null
+  price_cents: 600
+  description: Porte-clés torsadé rose. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9350.jpeg
+  active: true
+- reference: titine-9351
+  name: Bague fleurie rose et bleue
+  category: Bagues
+  collection: null
+  price_cents: 300
+  description: Bague fleurie rose et bleue. Création faite main par les bijoux de
+    titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9351.jpeg
+  - IMG_9353.jpeg
+  active: true
+- reference: titine-9354
+  name: Bague rose et blanche
+  category: Bagues
+  collection: null
+  price_cents: 300
+  description: Bague rose et blanche. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9354.jpeg
+  - IMG_9355.jpeg
+  active: true
+- reference: titine-9356
+  name: Bague rouge et verte
+  category: Bagues
+  collection: null
+  price_cents: 300
+  description: Bague rouge et verte. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9356.jpeg
+  - IMG_9357.jpeg
+  active: true
+- reference: titine-9358
+  name: Bague à perles dorées
+  category: Bagues
+  collection: null
+  price_cents: 300
+  description: Bague à perles dorées. Création faite main par les bijoux de titine.
+    Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9358.jpeg
+  - IMG_9359.jpeg
+  active: true
+- reference: titine-9360
+  name: Bague fleurie rose
+  category: Bagues
+  collection: null
+  price_cents: 300
+  description: Bague fleurie rose. Création faite main par les bijoux de titine. Les
+    photos présentent la pièce proposée.
+  photos:
+  - IMG_9360.jpeg
+  - IMG_9361.jpeg
+  active: true
+- reference: titine-9362
+  name: Porte-clés en perles blanches et dorées
+  category: Porte-clés
+  collection: null
+  price_cents: 600
+  description: Porte-clés en perles blanches et dorées. Création faite main par les
+    bijoux de titine. Les photos présentent la pièce proposée.
+  photos:
+  - IMG_9362.jpeg
+  active: true
+- reference: titine-nocollection-00004
+  name: Bracelet en perles roses, blanches et dorées
+  category: Bracelets en perles
+  collection: null
+  price_cents: 600
+  active: true
+  description: Bracelet en perles roses, blanches et dorées. Bracelet fait main aux
+    perles roses et blanches, ponctuées de touches dorées. Création des bijoux de
+    titine. Les deux photos présentent la pièce proposée sous deux angles.
+  photos:
+  - image00004.jpeg
+  - image00005.jpeg
+- reference: titine-fruits-00006
+  name: Bracelet cerises
+  category: Bracelets en perles
+  collection: Les fruits
+  price_cents: 600
+  active: true
+  description: Bracelet cerises. Bracelet fait main, orné de motifs de fruits en perles,
+    de la collection « Les fruits ». Création des bijoux de titine. Les deux photos
+    présentent la pièce proposée sous deux angles.
+  photos:
+  - image00006.jpeg
+  - image00007.jpeg
+  unique_piece: false
+  sizes:
+  - size_cm: 15
+    stock_quantity: 1
+  - size_cm: 18
+    stock_quantity: 1
+  - size_cm: 20
+    stock_quantity: 1
+- reference: titine-fruits-00008
+  name: Bracelet citrons
+  category: Bracelets en perles
+  collection: Les fruits
+  price_cents: 600
+  active: true
+  description: Bracelet citrons. Bracelet fait main, orné de motifs de fruits en perles,
+    de la collection « Les fruits ». Création des bijoux de titine. Les deux photos
+    présentent la pièce proposée sous deux angles.
+  photos:
+  - image00008.jpeg
+  - image00011.jpeg
+  unique_piece: false
+  sizes:
+  - size_cm: 15
+    stock_quantity: 1
+  - size_cm: 18
+    stock_quantity: 1
+- reference: titine-fruits-00009
+  name: Bracelet cerises sakura
+  category: Bracelets en perles
+  collection: Les fruits
+  price_cents: 600
+  active: true
+  description: Bracelet cerises sakura. Bracelet fait main, orné de motifs de fruits
+    en perles, de la collection « Les fruits ». Création des bijoux de titine. Les
+    deux photos présentent la pièce proposée sous deux angles.
+  photos:
+  - image00009.jpeg
+  - image00010.jpeg
+  unique_piece: false
+  sizes:
+  - size_cm: 15
+    stock_quantity: 1
+  - size_cm: 18
+    stock_quantity: 1
+  - size_cm: 20
+    stock_quantity: 1
+- reference: titine-fruits-00012
+  name: Bracelet orange
+  category: Bracelets en perles
+  collection: Les fruits
+  price_cents: 600
+  active: true
+  description: Bracelet orange. Bracelet fait main, orné de motifs de fruits en perles,
+    de la collection « Les fruits ». Création des bijoux de titine. Les deux photos
+    présentent la pièce proposée sous deux angles.
+  photos:
+  - image00012.jpeg
+  - image00013.jpeg
+  unique_piece: false
+  sizes:
+  - size_cm: 15
+    stock_quantity: 1
+  - size_cm: 18
+    stock_quantity: 1
+- reference: titine-fruits-00014
+  name: Bracelet raisins noirs
+  category: Bracelets en perles
+  collection: Les fruits
+  price_cents: 600
+  active: true
+  description: Bracelet raisins noirs. Bracelet fait main, orné de motifs de fruits
+    en perles, de la collection « Les fruits ». Création des bijoux de titine. Les
+    deux photos présentent la pièce proposée sous deux angles.
+  photos:
+  - image00014.jpeg
+  - image00016.jpeg
+  unique_piece: false
+  sizes:
+  - size_cm: 15
+    stock_quantity: 1
+  - size_cm: 18
+    stock_quantity: 1
+- reference: titine-fruits-00015
+  name: Bracelet raisins blancs
+  category: Bracelets en perles
+  collection: Les fruits
+  price_cents: 600
+  active: true
+  description: Bracelet raisins blancs. Bracelet fait main, orné de motifs de fruits
+    en perles, de la collection « Les fruits ». Création des bijoux de titine. Les
+    deux photos présentent la pièce proposée sous deux angles.
+  photos:
+  - image00015.jpeg
+  - image00017.jpeg
+  unique_piece: false
+  sizes:
+  - size_cm: 15
+    stock_quantity: 1
+  - size_cm: 18
+    stock_quantity: 1

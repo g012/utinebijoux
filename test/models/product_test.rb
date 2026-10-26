@@ -2,6 +2,7 @@ require "test_helper"
 
 class ProductTest < ActiveSupport::TestCase
   test "new products default to one available unique piece in euros" do
+    assert_equal 600, Product.new.price_cents
     product = create_product
     assert_equal 1, product.stock_quantity
     assert product.unique_piece?
@@ -42,5 +43,26 @@ class ProductTest < ActiveSupport::TestCase
   test "database rejects negative stock even bypassing validations" do
     product = create_product
     assert_raises(ActiveRecord::StatementInvalid) { product.update_column(:stock_quantity, -1) }
+  end
+  test "blank price is allowed only for drafts" do
+    product = create_product(active: false, price_cents: nil)
+    assert_not product.purchasable?
+    assert_not product.update(active: true)
+    assert_includes product.errors[:price_cents], "doit être renseigné"
+  end
+
+  test "database prevents publication without a price" do
+    product = create_product(active: false, price_cents: nil)
+    assert_raises(ActiveRecord::StatementInvalid) { product.update_column(:active, true) }
+  end
+
+  test "collections are optional and independent from the four categories" do
+    Product::CATEGORIES.each do |category|
+      product = create_product(category: category, collection: "Les fruits")
+      assert_equal "Les fruits", product.collection
+      product.update!(collection: "")
+      assert_nil product.collection
+    end
+    assert_not Product.new(category: "Colliers").valid?
   end
 end

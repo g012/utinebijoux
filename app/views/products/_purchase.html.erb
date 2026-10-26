@@ -1,0 +1,24 @@
+<% if product.purchasable? %>
+  <%= form_with url: cart_items_path, class: "add-to-cart", data: (product.sized? ? { controller: "product-size" } : {}) do |form| %>
+    <%= form.hidden_field :product_id, value: product.id %>
+    <% if product.sized? %>
+      <%= form.label :product_size_id, "Taille du bracelet" %>
+      <% options = product.product_sizes.sort_by(&:size_cm).map { |size| [size.stock_quantity.positive? ? size.label : "#{size.label} — épuisé", size.id, { disabled: size.stock_quantity.zero?, "data-stock": size.stock_quantity }] } %>
+      <%= form.select :product_size_id, options_for_select(options), { prompt: "Choisir une taille" }, required: true, data: { product_size_target: "size", action: "change->product-size#update" } %>
+      <div data-product-size-target="quantityField" hidden>
+        <%= form.label :quantity, "Quantité" %>
+        <%= form.number_field :quantity, value: 1, min: 1, max: 1, data: { product_size_target: "quantity" } %>
+      </div>
+    <% elsif product.stock_quantity > 1 && !product.unique_piece? %>
+      <%= form.label :quantity, "Quantité" %>
+      <%= form.number_field :quantity, value: 1, min: 1, max: [product.stock_quantity, 99].min %>
+    <% else %>
+      <%= form.hidden_field :quantity, value: 1 %>
+    <% end %>
+    <%= form.button class: "button button-wide" do %>Adopter cette création <%= icon(:bag, size: 20) %><% end %>
+  <% end %>
+  <p class="stock-note"><span class="stock-dot"></span><%= product.sized? ? "Choisissez la taille qui vous correspond." : product.unique_piece? ? "Un seul exemplaire, rien que pour vous." : "#{product.available_stock} exemplaire(s) disponible(s)." %></p>
+<% else %>
+  <div class="sold-message"><%= icon(:heart) %><div><strong>Cette création a déjà trouvé sa personne.</strong><p>D’autres petits coups de cœur vous attendent à l’atelier.</p></div></div>
+  <%= link_to "Découvrir les autres créations", products_path, class: "button button-outline button-wide" %>
+<% end %>

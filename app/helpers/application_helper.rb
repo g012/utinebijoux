@@ -28,6 +28,7 @@ module ApplicationHelper
       url: "#{Shop.url}#{product_path(product)}", offers: { "@type" => "Offer", price: format("%.2f", product.price_cents / 100.0), priceCurrency: "EUR",
         availability: product.purchasable? ? "https://schema.org/InStock" : "https://schema.org/OutOfStock", url: "#{Shop.url}#{product_path(product)}" } }
     data[:image] = product.ordered_photos.map { |photo| url_for(photo) } if product.photos.attached?
+    data[:size] = product.product_sizes.map(&:label) if product.sized?
     tag.script(json_escape(data.to_json).html_safe, type: "application/ld+json")
   end
 end

@@ -2,7 +2,7 @@ Merci <%= @order.customer_name %> !
 
 Votre commande <%= @order.number %> est confirmée.
 <% @order.order_items.each do |item| %>
-<%= item.quantity %> × <%= item.product_name %> — <%= money(item.total_cents) %>
+<%= item.quantity %> × <%= item.display_name %> — <%= money(item.total_cents) %>
 <% end %>
 Livraison : <%= money(@order.shipping_cents) %>
 Total payé : <%= money(@order.total_cents) %>

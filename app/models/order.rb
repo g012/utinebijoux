@@ -16,14 +16,15 @@ class Order < ApplicationRecord
   def release!(new_status)
     return unless pending_payment?
     products = Product.where(id: order_items.select(:product_id)).order(:id).lock.index_by(&:id)
+    sizes = ProductSize.where(id: order_items.select(:product_size_id)).order(:id).lock.index_by(&:id)
     order_items.each do |item|
-      product = products.fetch(item.product_id)
-      product.update!(stock_quantity: product.stock_quantity + item.quantity)
+      inventory = item.product_size_id ? sizes.fetch(item.product_size_id) : products.fetch(item.product_id)
+      inventory.update!(stock_quantity: inventory.stock_quantity + item.quantity)
     end
     # Keep the selection available for a fresh checkout, without reserving it.
     cart.with_lock do
       order_items.each do |item|
-        cart_item = cart.cart_items.find_or_initialize_by(product_id: item.product_id)
+        cart_item = cart.cart_items.find_or_initialize_by(product_id: item.product_id, product_size_id: item.product_size_id)
         cart_item.quantity = [ (cart_item.persisted? ? cart_item.quantity : 0) + item.quantity, 99 ].min
         cart_item.save!
       end

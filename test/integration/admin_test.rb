@@ -20,7 +20,7 @@ class AdminTest < ActionDispatch::IntegrationTest
     assert_response :success
     get new_admin_product_path
     assert_response :success
-    post admin_products_path, params: { product: { name: "Perle du matin", description: "Création en perles", price_cents: 2500, category: "Bracelets", active: "1" } }
+    post admin_products_path, params: { product: { name: "Perle du matin", description: "Création en perles", price_cents: 2500, category: "Bracelets en perles", active: "1" } }
     assert_redirected_to admin_products_path
     product = Product.last
     assert_equal 1, product.stock_quantity

@@ -3,7 +3,11 @@ class CartItemsController < ApplicationController
   def create
     change_item do
       product = Product.visible.find(params[:product_id])
-      item = current_cart.cart_items.find_or_initialize_by(product: product)
+      size = product.product_sizes.find_by(id: params[:product_size_id]) if params[:product_size_id].present?
+      if product.sized? != size.present? || (params[:product_size_id].present? && !size)
+        raise Checkout::Unavailable, "Choisissez une taille disponible pour cette création."
+      end
+      item = current_cart.cart_items.find_or_initialize_by(product: product, product_size: size)
       item.quantity = (item.persisted? ? item.quantity : 0) + quantity
       validate_stock!(item)
       item.save!
@@ -26,7 +30,7 @@ class CartItemsController < ApplicationController
       Integer(params.fetch(:quantity, 1).to_s, 10)
     end
     def validate_stock!(item)
-      unless item.product.purchasable? && item.quantity.between?(1, [ item.product.stock_quantity, 99 ].min) && (!item.product.unique_piece? || item.quantity == 1)
+      unless item.purchasable? && item.quantity.between?(1, item.max_quantity)
         raise Checkout::Unavailable, "Désolé, cette pièce vient d’être vendue ou la quantité demandée n’est plus disponible."
       end
     end

@@ -1,4 +1,4 @@
 <article class="product-card">
   <%= link_to product_path(product), class: "product-image" do %><%= product_photo(product) %><span class="product-badge <%= 'sold' unless product.purchasable? %>"><%= product.stock_label %></span><span class="product-discover"><%= icon(:arrow, size: 20) %></span><% end %>
-  <div class="product-card-info"><div><span class="product-category"><%= product.category == "Boucles" ? "Boucles d’oreilles" : product.category %></span><h3><%= link_to product.name, product_path(product) %></h3></div><span class="price"><%= money(product.price_cents) %></span></div>
+  <div class="product-card-info"><div><span class="product-category"><%= product.category %></span><% if product.collection.present? %><span class="collection-label"><%= product.collection %></span><% end %><h3><%= link_to product.name, product_path(product) %></h3><% if product.one_size? %><span class="tiny product-size-label">Taille unique</span><% end %></div><span class="price"><%= money(product.price_cents) %></span></div>
 </article>

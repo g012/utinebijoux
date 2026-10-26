@@ -25,10 +25,11 @@ class StorefrontTest < ActionDispatch::IntegrationTest
       order = Order.last
       stripe_session(order, status: "open", payment_status: "unpaid")
     }) do
-      post checkout_cart_path, params: { price_cents: 1, total_cents: 1, product_id: 99999 }
+      post checkout_cart_path, params: { price_cents: 1, total_cents: 1, shipping_cents: 0, product_id: 99999 }
     end
     assert_redirected_to "https://checkout.stripe.com/c/test"
     assert_equal 2800 + Shop.shipping_cents, order.reload.total_cents
+    assert_equal 200, order.shipping_cents
     assert_equal 0, product.reload.stock_quantity
   end
 

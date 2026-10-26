@@ -1,7 +1,7 @@
 class CartsController < ApplicationController
   allow_unauthenticated_access
   def show
-    @items = current_cart.cart_items.includes(product: { photos_attachments: :blob })
+    @items = current_cart.cart_items.includes(:product_size, product: [ :product_sizes, { photos_attachments: :blob } ])
     @pending_order = current_cart.pending_order
   end
   def checkout

@@ -101,4 +101,20 @@ class CheckoutTest < ActiveSupport::TestCase
     }) { Checkout.session_for(order) }
     assert order.reload.stripe_session_id.present?
   end
+  test "France shipping is charged once per order regardless of quantity" do
+    product = create_product(price_cents: 600, unique_piece: false, stock_quantity: 5)
+    single = reserve(product)
+    multiple = reserve(product, quantity: 3)
+    assert_equal 200, single.shipping_cents
+    assert_equal 200, multiple.shipping_cents
+    assert_equal 800, single.total_cents
+    assert_equal 2000, multiple.total_cents
+    [ single, multiple ].each do |order|
+      assert_equal [ "FR" ], order.checkout_request.dig("shipping_address_collection", "allowed_countries")
+      shipping = order.checkout_request.fetch("shipping_options")
+      assert_equal 1, shipping.size
+      assert_equal "fixed_amount", shipping.first.dig("shipping_rate_data", "type")
+      assert_equal({ "amount" => 200, "currency" => "eur" }, shipping.first.dig("shipping_rate_data", "fixed_amount"))
+    end
+  end
 end

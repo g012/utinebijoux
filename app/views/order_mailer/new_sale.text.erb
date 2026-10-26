@@ -1,7 +1,7 @@
 Nouvelle vente : <%= @order.number %>
 <%= @order.customer_name %> — <%= @order.customer_email %>
 <% @order.order_items.each do |item| %>
-<%= item.quantity %> × <%= item.product_name %>
+<%= item.quantity %> × <%= item.display_name %>
 <% end %>
 Total : <%= money(@order.total_cents) %>
 Adresse de livraison : <%= @order.shipping_details.to_json %>

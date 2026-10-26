@@ -1,10 +1,10 @@
 # All boutique settings live here; order prices are snapshotted at reservation time.
 module Shop
-  def self.name = ENV.fetch("SHOP_NAME", "Nom de l’atelier")
-  def self.email = ENV.fetch("SHOP_EMAIL", "bonjour@example.com")
+  def self.name = ENV.fetch("SHOP_NAME", "les bijoux de titine")
+  def self.email = ENV.fetch("SHOP_EMAIL", "lesbijouxdetitine@gmail.com")
   def self.admin_email = ENV.fetch("ADMIN_EMAIL", email)
   def self.url = ENV.fetch("APP_URL", "http://localhost:3000").delete_suffix("/")
-  def self.shipping_cents = Integer(ENV.fetch("FRANCE_SHIPPING_CENTS", "490"))
+  def self.shipping_cents = Integer(ENV.fetch("FRANCE_SHIPPING_CENTS", "200"))
   def self.currency = "eur"
 end
 
