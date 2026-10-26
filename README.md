@@ -126,3 +126,7 @@ Tests use Stripe doubles and locally signed webhook payloads, never live Stripe 
 A production Dockerfile is included; pass environment variables at runtime and mount `/rails/storage`. Run a second container from the same image with `bin/jobs`. The Docker build and a real hosted Stripe payment need deployment/account access and are not part of the offline automated suite.
 
 Key entry points: `app/services/checkout.rb`, `stripe_checkout_event.rb`, `reconcile_checkout.rb`; `app/models/{product,order,order_item}.rb`; `app/controllers/admin/`; `app/jobs/`; `config/initializers/shop.rb`; `config/recurring.yml`; `app/assets/tailwind/application.css`; and `test/`.
+
+## Deployment on userve
+
+The boutique is deployed at **https://titine.gros.bid** using the existing Kamal proxy, a dedicated PostgreSQL container, a web container, a Solid Queue worker and persistent photo storage. See [userve deployment](deploy/userve/README.md) for deployment commands, private secret locations, initial admin access, backups and rollback. Run `script/deploy-userve` from a committed checkout for subsequent releases.

@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+cd "$(dirname "$0")/.."
+if ! git diff --quiet || ! git diff --cached --quiet; then
+  printf 'Commit tracked changes before deploying a Git revision.\n' >&2
+  exit 1
+fi
+REVISION=$(git rev-parse --short=12 HEAD)
+HOST=${USERVE_HOST:-userve}
+TITINE_ROOT=/home/g012/apps/titine
+SSH=(ssh -o BatchMode=yes -o ConnectTimeout=10 "$HOST")
+
+"${SSH[@]}" 'bash -s' < deploy/userve/bootstrap.sh
+git archive HEAD | "${SSH[@]}" "mkdir -p '$TITINE_ROOT/releases/$REVISION' && tar -xf - -C '$TITINE_ROOT/releases/$REVISION'"
+"${SSH[@]}" "docker build --label service=titine --label org.opencontainers.image.revision=$REVISION -t titine:$REVISION '$TITINE_ROOT/releases/$REVISION'"
+"${SSH[@]}" "cat > '$TITINE_ROOT/bin/release.sh' && chmod 700 '$TITINE_ROOT/bin/release.sh'" < deploy/userve/release.sh
+"${SSH[@]}" "'$TITINE_ROOT/bin/release.sh' '$REVISION'"
+
+"${SSH[@]}" "cat > '$TITINE_ROOT/bin/backup.sh' && chmod 700 '$TITINE_ROOT/bin/backup.sh'" < deploy/userve/backup.sh
+"${SSH[@]}" "'$TITINE_ROOT/bin/backup.sh'"
+
+"${SSH[@]}" 'python3 -' <<'PYCRON'
+import subprocess
+job = '20 3 * * * /home/g012/apps/titine/bin/backup.sh >> /home/g012/apps/titine/backups/backup.log 2>&1 # titine backup'
+previous = subprocess.run(['crontab', '-l'], capture_output=True, text=True)
+if previous.returncode not in (0, 1):
+    raise SystemExit('Cannot read user crontab')
+content = previous.stdout
+if '/home/g012/apps/titine/bin/backup.sh' not in content:
+    subprocess.run(['crontab', '-'], input=content.rstrip() + '\n' + job + '\n', text=True, check=True)
+print('Titine daily backup scheduled at 03:20 server time.')
+PYCRON
