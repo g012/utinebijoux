@@ -1,0 +1,43 @@
+# Accessory only. The application remains deployed by script/deploy-userve.
+service: titine
+image: titine
+servers:
+  web:
+    - userve
+ssh:
+  user: g012
+# Application images are built on userve; no registry login is needed here.
+registry:
+  server: localhost:5555
+builder:
+  arch: amd64
+secrets_path: .kamal/backups-secrets
+accessories:
+  s3_backup:
+    # PostgreSQL 18 client; pin the inspected public image.
+    image: ghcr.io/g012/postgres-s3-backup@sha256:8f17e3e30fe64b72394f2ffcab3a011770e3631d709368b73967dec47ed4b2c5
+    host: userve
+    network: titine
+    cmd: /bin/sh /titine-run.sh
+    options:
+      memory: 256m
+    env:
+      clear:
+        SCHEDULE: '@daily'
+        BACKUP_KEEP_DAYS: 30
+        S3_REGION: eu-west-3
+        S3_BUCKET: titine
+        S3_PREFIX: backups
+        POSTGRES_HOST: titine-postgres
+        POSTGRES_PORT: 5432
+        POSTGRES_DATABASE: titine_production
+        POSTGRES_USER: titine
+      secret:
+        - POSTGRES_PASSWORD
+        - S3_ACCESS_KEY_ID
+        - S3_SECRET_ACCESS_KEY
+    files:
+      - deploy/userve/s3-backup.sh:/titine-backup.sh
+      - deploy/userve/s3-run.sh:/titine-run.sh
+    volumes:
+      - titine-storage:/storage:ro
