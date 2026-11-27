@@ -129,4 +129,4 @@ Key entry points: `app/services/checkout.rb`, `stripe_checkout_event.rb`, `recon
 
 ## Deployment on userve
 
-The boutique is deployed at **https://titine.gros.bid** using the existing Kamal proxy, a dedicated PostgreSQL container, a web container, a Solid Queue worker and persistent photo storage. See [userve deployment](deploy/userve/README.md) for deployment commands, private secret locations, initial admin access, backups and rollback. Run `script/deploy-userve` from a committed checkout for subsequent releases.
+The boutique is deployed at **https://titine.gros.bid** with Kamal 2: a web role, a Solid Queue worker role, a PostgreSQL accessory, an S3 backup accessory and persistent photo storage, behind the kamal-proxy shared with other apps on the server. See [userve deployment](deploy/userve/README.md) for deployment commands, private secret locations, initial admin access, backups and rollback. Run `bin/kamal deploy` from a committed checkout for subsequent releases.

@@ -1,8 +1,9 @@
 #!/bin/bash -e
 
-# If running the rails server then create or migrate existing database
+# Before the web server starts: migrate, then import missing catalogue records
+# (idempotent; existing products and stock are kept). Demo seeds never run here.
 if [ "${@: -2:1}" == "./bin/rails" ] && [ "${@: -1:1}" == "server" ]; then
-  ./bin/rails db:prepare
+  ./bin/rails db:migrate catalogue:import
 fi
 
 exec "${@}"

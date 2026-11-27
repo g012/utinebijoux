@@ -1,0 +1,121 @@
+# Kamal 2 deployment of titine.gros.bid on userve, alongside other Kamal apps
+# sharing the same kamal-proxy. See deploy/userve/README.md.
+service: titine
+image: titine
+
+servers:
+  web:
+    hosts:
+      - userve
+    options:
+      # Private network shared with titine-postgres (in addition to "kamal").
+      network: titine
+      memory: 1g
+  job:
+    hosts:
+      - userve
+    cmd: ./bin/jobs
+    options:
+      network: titine
+      memory: 768m
+
+proxy:
+  ssl: true
+  host: titine.gros.bid
+  app_port: 3000
+  healthcheck:
+    path: /up
+
+# Kamal runs a registry on this machine and servers pull through an SSH tunnel.
+registry:
+  server: localhost:5555
+
+ssh:
+  user: g012
+
+builder:
+  arch: amd64
+
+# Secrets are read at deploy time from userve and local credentials (.kamal/secrets).
+env:
+  clear:
+    APP_URL: https://titine.gros.bid
+    SHOP_NAME: les bijoux de titine
+    SHOP_EMAIL: lesbijouxdetitine@gmail.com
+    ADMIN_EMAIL: lesbijouxdetitine@gmail.com
+    FRANCE_SHIPPING_CENTS: 200
+    RAILS_MAX_THREADS: 5
+    JOB_CONCURRENCY: 1
+    SMTP_ADDRESS: localhost
+    SMTP_PORT: 587
+  secret:
+    - DATABASE_URL
+    - SECRET_KEY_BASE
+    - STRIPE_SECRET_KEY
+    - STRIPE_WEBHOOK_SECRET
+    - SMTP_USERNAME
+    - SMTP_PASSWORD
+
+volumes:
+  - titine-storage:/rails/storage
+
+# Serve assets of both versions during the switch to avoid 404s on in-flight pages.
+asset_path: /rails/public/assets
+
+aliases:
+  console: app exec --primary --interactive --reuse "bin/rails console"
+  shell: app exec --primary --interactive --reuse "bash"
+  logs: app logs -f
+  dbc: app exec --primary --interactive --reuse "bin/rails dbconsole"
+  backup: server exec /home/g012/apps/titine/bin/backup.sh
+
+accessories:
+  postgres:
+    image: pgvector/pgvector:pg18
+    host: userve
+    network: titine
+    env:
+      clear:
+        POSTGRES_USER: titine
+        POSTGRES_DB: titine_production
+      secret:
+        - POSTGRES_PASSWORD
+    volumes:
+      - titine-postgres-data:/var/lib/postgresql
+    options:
+      memory: 768m
+      shm-size: 128m
+      health-cmd: pg_isready -U titine -d titine_production
+      health-interval: 5s
+      health-timeout: 3s
+      health-retries: 12
+
+  # Daily off-host backup to s3://titine/backups/titine_production/.
+  s3_backup:
+    # PostgreSQL 18 client; pin the inspected public image.
+    image: ghcr.io/g012/postgres-s3-backup@sha256:8f17e3e30fe64b72394f2ffcab3a011770e3631d709368b73967dec47ed4b2c5
+    host: userve
+    network: titine
+    cmd: /bin/sh /titine-run.sh
+    options:
+      memory: 256m
+    env:
+      clear:
+        SCHEDULE: '@daily'
+        BACKUP_KEEP_DAYS: 30
+        S3_REGION: eu-west-3
+        S3_BUCKET: titine
+        S3_PREFIX: backups
+        POSTGRES_HOST: titine-postgres
+        POSTGRES_PORT: 5432
+        POSTGRES_DATABASE: titine_production
+        POSTGRES_USER: titine
+      secret:
+        - POSTGRES_PASSWORD
+        - S3_ACCESS_KEY_ID
+        - S3_SECRET_ACCESS_KEY
+    files:
+      - deploy/userve/s3-backup.sh:/titine-backup.sh
+      - deploy/userve/s3-run.sh:/titine-run.sh
+    volumes:
+      - titine-storage:/storage:ro

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Back up the database and photos on userve before the new version migrates.
+set -euo pipefail
+cd "$(dirname "$0")/../.."
+TITINE_ROOT=/home/g012/apps/titine
+SSH=(ssh -o BatchMode=yes -o ConnectTimeout=10 "${USERVE_HOST:-userve}")
+
+"${SSH[@]}" "mkdir -p '$TITINE_ROOT/bin' && cat > '$TITINE_ROOT/bin/backup.sh' && chmod 700 '$TITINE_ROOT/bin/backup.sh'" < deploy/userve/backup.sh
+"${SSH[@]}" "'$TITINE_ROOT/bin/backup.sh'"
